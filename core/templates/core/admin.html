@@ -1,0 +1,190 @@
+{% extends 'base.html' %} {% load static %} {% block contect %}
+<section
+  class="jumbotron text-center pt-3 pb-3 mb-4"
+  style="background-color: #ededed"
+>
+  <h3 class="jumbotron-heading">Admin Panel</h3>
+  <p class="lead text-muted">Welcome to your God Mode</p>
+</section>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Bartenders</h4>
+        <ul>
+          {% for bartender in bartenders %}
+          <li>{{ bartender.last_name }} {{ bartender.first_name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Last Check In</h4>
+        <ul>
+          <li>{{ last_checkin.history.date }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Send Alert to Bartenders</h4>
+        <form method="POST" action="{% url 'send_alert' %}">
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input
+              name="subject"
+              type="text"
+              class="form-control"
+              placeholder="Subject"
+              aria-label="Subject"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Message</span>
+            </div>
+            <textarea
+              name="message"
+              class="form-control"
+              aria-label="With textarea"
+            ></textarea>
+          </div>
+          <div class="d-grid gap-2 mb-2 mt-3">
+            <button class="btn btn-danger redbtn" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-envelope-open" viewBox="0 0 16 16">
+                    <path d="M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.818l5.724 3.465L8 8.917l1.276.766L15 6.218V5.4a1 1 0 0 0-.53-.882l-6-3.2zM15 7.388l-4.754 2.877L15 13.117v-5.73zm-.035 6.874L8 10.083l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738zM1 13.117l4.754-2.852L1 7.387v5.73zM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765l6-3.2z"/>
+                  </svg> Send Alert
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Add New Category</h4>
+        <form method="POST" action="{% url 'add_category' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Category Name</label>
+            <input
+              name="cat_name"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="e.g. Beer"
+            />
+          </div>
+          <div class="d-grid gap-2 mb-2 mt-3">
+            <button class="btn btn-danger redbtn" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg> Create New Category
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Add New Sub Category</h4>
+        <form method="POST" action="{% url 'add_sub' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Sub Category Name</label>
+            <input
+              name="subcat_name"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="e.g. Pale Ale"
+            />
+          </div>
+          <label for="exampleFormControlInput1">Select Category</label>
+          <select name="cat_fk" class="form-control mt-2">
+            {% for category in categories %}
+            <option>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+          <div class="d-grid gap-2 mb-2 mt-3">
+            <button class="btn btn-danger redbtn" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg> Create New Sub Category
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="alert alert-secondary" role="alert">
+        <h4>Add New Beverage</h4>
+        <form method="POST" action="{% url 'add_drink' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Beverage Name</label>
+            <input
+              name="dri_name"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="e.g. Pale Ale"
+            />
+          </div>
+          <label for="exampleFormControlInput1">Select Category</label>
+          <select name="dri_cat" class="form-control mt-2">
+            {% for category in categories %}
+            <option>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+          <label for="exampleFormControlInput1">Select Sub Category</label>
+          <select name="dri_sub" class="form-control mt-2">
+            {% for category in subcategories %}
+            <option>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Quantity</label>
+            <input
+              name="qty"
+              type="number"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="e.g. 42"
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Emergency Number</label>
+            <input
+              name="eme_num"
+              type="number"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="e.g. 8"
+            />
+          </div>
+          <div class="d-grid gap-2 mb-2 mt-3">
+            <button class="btn btn-danger redbtn" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg> Create New Beverage
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mb-5">
+  <p>&nbsp;</p>
+</div>
+
+{% endblock %}

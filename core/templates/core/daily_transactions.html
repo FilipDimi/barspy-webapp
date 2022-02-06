@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contect %}
+<section class="jumbotron text-center pt-3 pb-3 mb-4" style="background-color: #ededed;">
+    <h3 class="jumbotron-heading">Daily Transaction Made on {{ history_date }}</h3>
+    <span class="jumbotron-heading">Daily Transaction Made by </span><span>{% for bartender in bartenders %} {{ bartender}}{% if forloop.last %} {% else %}, {% endif %} {% endfor %}</span>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ul>
+                {% for transaction in daily_transactions %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <li>
+                            <h6>{{ transaction.drink.name }} ({{ transaction.drink.category }})</h6>
+                            <ul class="mb-2" style="margin-top: -8px;">
+                                <li>In Stock: {{ transaction.drink.inStock }}</li>
+                                <li>Change: {{ transaction.change }}</li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 mb-5">
+    <p>&nbsp;&nbsp;</p>
+  </div>
+
+{% endblock %}

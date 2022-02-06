@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contect %}
+<section class="jumbotron text-center pt-3 pb-3 mb-4" style="background-color: #ededed;">
+    <h3 class="jumbotron-heading">You were wondering why it's called Bar Spy?</h3>
+    <p class="lead text-muted">See every Bartender's stock history</p>
+</section>
+<div class="container mb-5">
+    {% for hist in history %}
+    <a href="{% url 'transactions_per_day' hist.pk %}" style="text-decoration: none;">
+    <div class="card mb-3">
+        <div class="card-body">
+            <p>{{ hist.date }}</p>
+        </div>
+    </div>
+</a>
+    {% endfor %}
+</div>
+<div class="container mt-5 mb-5">
+    <p>&nbsp;&nbsp;</p>
+  </div>
+
+{% endblock %}
